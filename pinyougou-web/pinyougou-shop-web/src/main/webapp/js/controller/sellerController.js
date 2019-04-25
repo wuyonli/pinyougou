@@ -4,11 +4,23 @@ app.controller('sellerController', function($scope, $controller, baseService){
     /** 指定继承baseController */
     $controller('baseController',{$scope:$scope});
 
-    /** 添加或修改 */
-    $scope.saveOrUpdate = function(){
+    /*查询用户信息*/
+    $scope.findAll=function () {
+      baseService.sendGet("/seller/findOne").then(function(response){
+          $scope.seller=response.data;
+      });
 
+
+    };
+
+    /** 修改或添加 */
+    $scope.saveOrUpdate= function(){
+        var url="save";
+        if($scope.seller.sellerId){
+            url="update";
+        }
         /** 发送post请求 */
-        baseService.sendPost("/seller/save", $scope.seller)
+        baseService.sendPost("/seller/"+url, $scope.seller)
             .then(function(response){
                 if (response.data){
                     /** 跳转到登录页面 */
@@ -18,24 +30,6 @@ app.controller('sellerController', function($scope, $controller, baseService){
                 }
             });
     };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -76,5 +70,21 @@ app.controller('sellerController', function($scope, $controller, baseService){
         }else{
             alert("请选择要删除的记录！");
         }
+    };
+
+    /*修改用户的密码*/
+    $scope.updatePassword=function(pwd,newPwd,newPwd2){
+            if(newPwd==newPwd2){
+                baseService.sendPost("/seller/updatePassword?pwd="+pwd+"&newPwd="+newPwd).then(function(response){
+                    if(response){
+                            /** 跳转到登录页面 */
+                            location.href = "/shoplogin.html";
+                        }else{
+                            alert("操作失败！");
+                        }
+                });
+            }else{
+                alert("两次输入的密码不相同,请重新输入")
+            }
     };
 });

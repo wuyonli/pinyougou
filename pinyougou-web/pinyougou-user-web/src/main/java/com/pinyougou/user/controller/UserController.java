@@ -5,6 +5,8 @@ import com.pinyougou.pojo.User;
 import com.pinyougou.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 /**
  * 用户控制器
  *
@@ -44,6 +46,13 @@ public class UserController {
         }catch (Exception ex){
             ex.printStackTrace();
         }
+        return false;
+    }
+
+    /** 发送短信验证码 */
+    @PostMapping("/updatePassword")
+    public boolean updatePassword(@RequestBody Map<String,String> updateinfo){
+
         return false;
     }
 

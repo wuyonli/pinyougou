@@ -44,6 +44,11 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public void update(Seller seller) {
+        try {
+            sellerMapper.updateByPrimaryKeySelective(seller);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
