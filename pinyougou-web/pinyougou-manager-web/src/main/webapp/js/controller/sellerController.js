@@ -5,7 +5,7 @@ app.controller('sellerController', function($scope, $controller, baseService){
     $controller('baseController',{$scope:$scope});
 
     /** 查询条件对象 */
-    $scope.searchEntity = {status : '0'};
+    $scope.searchEntity = {};
     /** 分页查询(查询条件) */
     $scope.search = function(page, rows){
         baseService.findByPage("/seller/findByPage", page,

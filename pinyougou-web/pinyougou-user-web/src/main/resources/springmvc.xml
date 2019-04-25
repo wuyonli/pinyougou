@@ -13,6 +13,9 @@
        http://code.alibabatech.com/schema/dubbo
        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
+    <!-- 加载属性文件 -->
+    <context:property-placeholder location="classpath:application.properties"/>
+
     <!-- 开启MVC注解驱动 -->
     <mvc:annotation-driven>
         <!-- 配置消息转换 -->
@@ -41,4 +44,12 @@
     <!-- 配置包扫描的方式引用服务(它底层实现层的组件扫描) -->
     <dubbo:annotation package="com.pinyougou.user.controller"/>
 
+
+    <!-- 配置文件上传解析器 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!--设置文件上传默认编码-->
+        <property name="defaultEncoding" value="UTF-8"/>
+        <!--设置文件上传大小-->
+        <property name="maxUploadSize" value="2097152"/>
+    </bean>
 </beans>
