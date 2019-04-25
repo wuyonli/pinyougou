@@ -32,8 +32,16 @@ public interface UserService {
 	List<User> findByPage(User user, int page, int rows);
 
 	/** 发送短信验证码 */
-	boolean sendSmsCode(String phone);
+	boolean sendCode(String phone);
 
 	/** 检验验证码是否正确 */
 	boolean checkSmsCode(String phone, String code);
+
+	/**  修改用户密码 */
+    User updatePassword(String userName, String newPassword);
+
+    // 根据用户名获取用户信息
+	User getUserInfo(String userName);
+
+	void updatePhone(String userName,String phone);
 }
