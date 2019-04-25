@@ -36,4 +36,7 @@ public interface UserService {
 
 	/** 检验验证码是否正确 */
 	boolean checkSmsCode(String phone, String code);
+
+	/** 根据用户名查询用户 */
+	User findByUsername(String username);
 }

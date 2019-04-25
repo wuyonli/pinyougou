@@ -5,6 +5,7 @@ app.controller('indexController', function($scope, baseService){
         baseService.sendGet("/user/showName")
             .then(function(response){
                 $scope.loginName = response.data.loginName;
+                $scope.headPic = response.data.headPic;
             });
     };
 

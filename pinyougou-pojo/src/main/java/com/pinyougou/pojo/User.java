@@ -54,6 +54,26 @@ public class User implements Serializable{
     private Date birthday;
 	@Column(name="last_login_time")
     private Date lastLoginTime;
+	@Column
+    private String job;
+	@Column
+    private String address;
+
+    public String getJob() {
+        return job;
+    }
+
+    public void setJob(String job) {
+        this.job = job;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     public Long getId() {
         return id;
