@@ -34,4 +34,5 @@ public interface AddressService {
 	/** 根据登录用户名获取收件地址列表 */
     List<Address> findAddressByUser(String userId);
 
+    void upadteByDefault(Long id);
 }
