@@ -47,11 +47,11 @@
 									公司名称：<input ng-model="searchEntity.name"/>
 									店铺名称：<input ng-model="searchEntity.nickName"/>
 									状态：
-									<input type="radio" value="" />全部
-									<input type="radio" value="0" />待审核
-									<input type="radio" value="1" />已审核
-									<input type="radio" value="2" />审核未通过
-									<input type="radio" value="3" />关闭
+									<input ng-model="searchEntity.status" type="radio" value=""  />全部
+									<input ng-model="searchEntity.status" type="radio" value="0" />待审核
+									<input ng-model="searchEntity.status" type="radio" value="1" />已审核
+									<input ng-model="searchEntity.status" type="radio" value="2" />审核未通过
+									<input ng-model="searchEntity.status" type="radio" value="3" />关闭
 									<button class="btn btn-default"
 											ng-click="reload()">
 										查询
@@ -84,7 +84,12 @@
 									  <td>{{entity.nickName}}</td>
 									  <td>{{entity.linkmanName}}</td>
 									  <td>{{entity.telephone}}</td>
-									  <td>{{entity.status}}</td>
+									  <td>
+										  <div ng-if="entity.status == 0">待审核</div>
+										  <div ng-if="entity.status == 1">已审核</div>
+										  <div ng-if="entity.status == 2">审核未通过</div>
+										  <div ng-if="entity.status == 3">已关闭</div>
+									  </td>
 									  <td class="text-center">
 										  <button type="button"
 												  class="btn bg-olive btn-xs"
