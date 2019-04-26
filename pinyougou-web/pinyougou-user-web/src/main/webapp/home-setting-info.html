@@ -267,21 +267,21 @@ $(function(){
                                                 <div class="form-group area">
                                                     <select class="form-control" id="province1"
 															ng-options="d.provinceId as d.province for d in dataList1"
-															ng-model="user.provinceId">
+															ng-model="user.address.provinceId">
 														<option>省份</option>
 													</select>
                                                 </div>
                                                 <div class="form-group area">
                                                     <select class="form-control" id="city1"
 															ng-options="d.cityId as d.city for d in dataList2"
-															ng-model="user.cityId">
+															ng-model="user.address.cityId">
 														<option>城市</option>
 													</select>
                                                 </div>
                                                 <div class="form-group area">
                                                     <select class="form-control" id="area1"
 															ng-options="d.areaId as d.area for d in dataList3"
-															ng-model="user.areaId">
+															ng-model="user.address.areaId">
 														<option>区域</option>
 													</select>
                                                 </div>

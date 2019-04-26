@@ -2,6 +2,8 @@ package com.pinyougou.user.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.support.Parameter;
+import com.pinyougou.pojo.Areas;
+import com.pinyougou.pojo.Cities;
 import com.pinyougou.pojo.Provinces;
 import com.pinyougou.pojo.User;
 import com.pinyougou.service.AreasService;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 个人信心
@@ -50,6 +53,7 @@ public class UserUpdateController {
         user1.setJob(user.getJob());
         user1.setBirthday(user.getBirthday());
         user1.setHeadPic(user.getHeadPic());
+        user1.setAddress(user.getAddress());
 
         try {
             userService.update(user1);
@@ -65,4 +69,17 @@ public class UserUpdateController {
     public List<Provinces> findProvinceByParentId(String provinceId){
         return provincesService.findProvinceByParentId(provinceId);
     }
+
+    /** 根据省份id查询城市 */
+    @GetMapping("/findCityByParentId")
+    public List<Cities> findCityByParentId(String provinceId){
+        return citiesService.findCityByParentId(provinceId);
+    }
+
+    /** 根据城市id查询区域 */
+    @GetMapping("/findAreaByParentId")
+    public List<Areas> findAreaByParentId(String cityId){
+        return areasService.findAreaByParentId(cityId);
+    }
+
 }
