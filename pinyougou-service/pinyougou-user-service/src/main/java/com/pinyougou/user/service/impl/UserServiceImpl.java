@@ -179,4 +179,15 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public User findByUsername(String username) {
+        try {
+            User user = new User();
+            user.setUsername(username);
+            return userMapper.selectOne(user);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

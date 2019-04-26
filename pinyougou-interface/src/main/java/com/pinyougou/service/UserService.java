@@ -44,4 +44,7 @@ public interface UserService {
 	User getUserInfo(String userName);
 
 	void updatePhone(String userName,String phone);
+
+	/** 根据用户名查询用户 */
+	User findByUsername(String username);
 }
