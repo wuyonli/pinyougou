@@ -10,6 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * @author ASUS
+ * @description com.pinyougou.user.service.impl
+ * @date 2019/4/25
+ */
 @Service(interfaceName = "com.pinyougou.service.ProvincesService")
 @Transactional
 public class ProvincesServiceImpl implements ProvincesService {
@@ -54,5 +59,17 @@ public class ProvincesServiceImpl implements ProvincesService {
     @Override
     public List<Provinces> findByPage(Provinces provinces, int page, int rows) {
         return null;
+    }
+
+    @Override
+    public List<Provinces> findProvinceByParentId(String provinceId) {
+        try {
+            /** 创建封装查询条件 */
+            Provinces provinces = new Provinces();
+            provinces.setProvinceId(provinceId);
+            return provincesMapper.select(provinces);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

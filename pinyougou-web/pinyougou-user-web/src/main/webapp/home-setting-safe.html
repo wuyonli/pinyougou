@@ -9,8 +9,20 @@
     
 	<link rel="stylesheet" type="text/css" href="/css/pages-seckillOrder.css"/>
 
+	<!--导入jquery-->
+	<script src="js/plugins/jquery/jquery.min.js"></script>
+
+	<script src="/plugins/angularjs/angular.min.js"></script>
+	<script src="/js/base.js"></script>
+	<script src="/js/service/baseService.js"></script>
+	<script src="/js/controller/indexController.js"></script>
+	<script src="/js/controller/settingSafeController.js"></script>
+
+
 </head>
-<body>
+<body ng-app="pinyougou"
+	  ng-controller="settingSafeController"
+	  ng-init="showName();">
     <!-- 头部栏位 -->
     <!--页面顶部-->
 <div id="nav-bottom">
@@ -20,8 +32,7 @@
 			<div class="py-container">
 				<div class="shortcut">
 					<ul class="fl">
-						<li class="f-item">品优购欢迎您！</li>
-						<li class="f-item">请<a href="login.html" target="_blank">登录</a>　<span><a href="register.html" target="_blank">免费注册</a></span></li>
+						<li class="f-item">{{loginName}}，品优购欢迎您！</li>
 					</ul>
 					<ul class="fr">
 						<li class="f-item">我的订单</li>
@@ -318,37 +329,37 @@ $(function(){
                     <div class="body userSafe">
                         <ul class="sui-nav nav-tabs nav-large nav-primary ">
                             <li class="active"><a href="#one" data-toggle="tab">密码设置</a></li>
-                            <li><a href="#two" data-toggle="tab">绑定手机</a></li>
+                            <li ng-click="getUserInfo();"><a href="#two" data-toggle="tab">绑定手机</a></li>
                         </ul>
                         <div class="tab-content ">
                             <div id="one" class="tab-pane active">
+								{{user}}
                                 <form class="sui-form form-horizontal sui-validate" id="jsForm">
                                     <div class="control-group">
                                         <label for="inputusername" class="control-label">用户名：</label>
                                         <div class="controls">
-                                            <input id="pwdid" class="fn-tinput" data-rule-remote="http://www.baidu.com" type="password" name="OldPassword" placeholder="输入昵称"
-                                                required data-msg-required="请输入昵称" minlength="6" data-msg-minlength="至少输入6个字符"
-                                            />
+                                            <input id="pwdid" class="fn-tinput" data-rule-remote="http://www.baidu.com" type="text" name="OldPassword" placeholder="输入昵称"
+                                                required data-msg-required="请输入昵称" minlength="6" data-msg-minlength="至少输入6个字符" ng-model="user.userName"/>
 
                                         </div>
                                     </div>
                                     <div class="control-group">
-                                        <label for="inputPassword" class="control-label">密码：</label>
+                                        <label for="inputPassword" class="control-label">新密码：</label>
                                         <div class="controls">
-                                            <input class="fn-tinput" type="password" name="password" value="" placeholder="新密码" required id="password" data-rule-remote="php.php">
+                                            <input class="fn-tinput" type="password" name="password" value="" placeholder="新密码" required id="password" data-rule-remote="php.php"  ng-model="user.newPassword"/>
                                         </div>
                                     </div>
                                     <div class="control-group">
                                         <label for="inputRepassword" class="control-label">重复密码：</label>
                                         <div class="controls">
-                                            <input class="fn-tinput" type="password" name="confirm_password" value="" placeholder="确认新密码" required equalTo="#password">
+                                            <input class="fn-tinput" type="password" name="confirm_password" value="" placeholder="确认新密码" required equalTo="#password" ng-model="user.okPassword">
                                         </div>
                                     </div>
 
                                     <div class="control-group">
                                         <label class="control-label"></label>
                                         <div class="controls">
-                                            <button type="submit" class="sui-btn btn-primary">提交按钮</button>
+                                            <button type="button" class="sui-btn btn-primary" ng-click="updatePassword()">提交按钮</button>
                                         </div>
                                     </div>
                                 </form>
@@ -379,28 +390,35 @@ $(function(){
 
                                     <div class="control-group">
                                         <label for="inputPassword" class="control-label">验证方式：</label>
-                                        <div class="controls fixed">手机验证（138****9856）</div>                            
+                                        <div class="controls fixed">手机验证（{{entity.phone}}）</div>
                                     </div>
                                      <div class="control-group">
                                         <label for="inputcode" class="control-label">验证码：</label>
                                         <div class="controls">
-                                            <input name="inputcode" type="text" id="inputcode">
+                                            <input name="inputcode" type="text" id="inputcode" ng-model="inputCode">
                                         </div>
                                         <div class="controls">
-                                            验证码
+											<img id ="picCode" src="/verify"/>
+											<!--用于点击切换图片-->
+											<script type="text/javascript">
+                                                $("#picCode").click(function () {
+                                                    //修改src属性
+                                                    $(this).attr("src","/verify?t="+Math.random());
+                                                })
+											</script>
                                         </div>
                                     </div>
                                     <div class="control-group">
                                         <label for="inputRepassword" class="control-label">短信验证码：</label>
                                         <div class="controls">
-                                            <input name="msgcode" type="text" id="msgcode">
+                                            <input name="msgcode" type="text" id="msgcode" ng-model="msgCode">
                                         </div>
                                         <div class="controls">
-                                            <button class="sui-btn btn-info">发送</button>
+                                            <button class="sui-btn btn-info" ng-click="sendMsg();">发送</button>{{smsTip}}
                                         </div>
                                     </div>
                                     <div class="control-group next-btn">
-                                        <a class="sui-btn btn-primary" href="home-setting-address-phone.html">下一步</a>
+                                        <a class="sui-btn btn-primary"  ng-click="msgCodeVerify();">下一步</a>
                                     </div>
                                 </form>
                             </div>
