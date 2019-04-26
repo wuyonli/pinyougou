@@ -27,17 +27,29 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public void save(Address address) {
-
+        try {
+            addressMapper.insert(address);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void update(Address address) {
-
+        try {
+            addressMapper.updateByPrimaryKeySelective(address);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void delete(Serializable id) {
-
+        try {
+            addressMapper.deleteByPrimaryKey(id);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -52,7 +64,11 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public List<Address> findAll() {
-        return null;
+        try {
+            return addressMapper.selectAll();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -76,6 +92,15 @@ public class AddressServiceImpl implements AddressService {
             return addressMapper.selectByExample(example);
         }catch (Exception ex){
             throw new RuntimeException(ex);
+        }
+    }
+
+    @Override
+    public void upadteByDefault(Long id) {
+        try {
+            addressMapper.upadteByDefault(id);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 }

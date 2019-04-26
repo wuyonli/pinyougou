@@ -1,11 +1,12 @@
 /** 定义控制器层 */
-app.controller('settingSafeController', function ($scope, $controller,$timeout, $http, baseService) {
+app.controller('home-setting-address-phone', function ($scope, $controller,$timeout, $http, baseService) {
 
     /** 指定继承indexController */
     $controller('indexController', {$scope: $scope});
 
     // 定义user对象
     $scope.user = {};
+    $scope.entity = {};
 
     // 修改用户密码
     $scope.updatePassword = function () {
@@ -85,16 +86,17 @@ app.controller('settingSafeController', function ($scope, $controller,$timeout, 
     };
 
 
-    $scope.msgCodeVerify = function () {
-        $http.post("/user/msgCodeVerify", {
+    $scope.newPhoneMsgCodeVerify = function () {
+        $http.post("/user/newPhoneMsgCodeVerify", {
             "phone": $scope.entity.phone,
             "msgCode": $scope.msgCode,
+            "userName":$scope.loginName,
         })
             .then(function (response) { // 请求成功
                 if (response.data) {
 
                     alert("验证成功");
-                  location.href="home-setting-address-phone.html";
+                  location.href="home-setting-address-complete.html";
 
                 } else {
                     alert("验证失败！");

@@ -9,6 +9,9 @@
     
 	<link rel="stylesheet" type="text/css" href="/css/pages-seckillOrder.css"/>
 
+	<!--导入jquery-->
+	<script src="js/plugins/jquery/jquery.min.js"></script>
+
 	<script src="/plugins/angularjs/angular.min.js"></script>
 	<script src="/js/base.js"></script>
 	<script src="/js/service/baseService.js"></script>
@@ -19,7 +22,7 @@
 </head>
 <body ng-app="pinyougou"
 	  ng-controller="settingSafeController"
-	  ng-init="showName()">
+	  ng-init="showName();">
     <!-- 头部栏位 -->
     <!--页面顶部-->
 <div id="nav-bottom">
@@ -326,7 +329,7 @@ $(function(){
                     <div class="body userSafe">
                         <ul class="sui-nav nav-tabs nav-large nav-primary ">
                             <li class="active"><a href="#one" data-toggle="tab">密码设置</a></li>
-                            <li><a href="#two" data-toggle="tab">绑定手机</a></li>
+                            <li ng-click="getUserInfo();"><a href="#two" data-toggle="tab">绑定手机</a></li>
                         </ul>
                         <div class="tab-content ">
                             <div id="one" class="tab-pane active">
@@ -387,28 +390,35 @@ $(function(){
 
                                     <div class="control-group">
                                         <label for="inputPassword" class="control-label">验证方式：</label>
-                                        <div class="controls fixed">手机验证（138****9856）</div>                            
+                                        <div class="controls fixed">手机验证（{{entity.phone}}）</div>
                                     </div>
                                      <div class="control-group">
                                         <label for="inputcode" class="control-label">验证码：</label>
                                         <div class="controls">
-                                            <input name="inputcode" type="text" id="inputcode">
+                                            <input name="inputcode" type="text" id="inputcode" ng-model="inputCode">
                                         </div>
                                         <div class="controls">
-                                            验证码
+											<img id ="picCode" src="/verify"/>
+											<!--用于点击切换图片-->
+											<script type="text/javascript">
+                                                $("#picCode").click(function () {
+                                                    //修改src属性
+                                                    $(this).attr("src","/verify?t="+Math.random());
+                                                })
+											</script>
                                         </div>
                                     </div>
                                     <div class="control-group">
                                         <label for="inputRepassword" class="control-label">短信验证码：</label>
                                         <div class="controls">
-                                            <input name="msgcode" type="text" id="msgcode">
+                                            <input name="msgcode" type="text" id="msgcode" ng-model="msgCode">
                                         </div>
                                         <div class="controls">
-                                            <button class="sui-btn btn-info">发送</button>
+                                            <button class="sui-btn btn-info" ng-click="sendMsg();">发送</button>{{smsTip}}
                                         </div>
                                     </div>
                                     <div class="control-group next-btn">
-                                        <a class="sui-btn btn-primary" href="home-setting-address-phone.html">下一步</a>
+                                        <a class="sui-btn btn-primary"  ng-click="msgCodeVerify();">下一步</a>
                                     </div>
                                 </form>
                             </div>

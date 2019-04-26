@@ -1,5 +1,6 @@
 package com.pinyougou.mapper;
 
+import org.apache.ibatis.annotations.Param;
 import tk.mybatis.mapper.common.Mapper;
 
 import com.pinyougou.pojo.Address;
@@ -11,6 +12,5 @@ import com.pinyougou.pojo.Address;
  */
 public interface AddressMapper extends Mapper<Address>{
 
-
-
+    void upadteByDefault(Long id);
 }

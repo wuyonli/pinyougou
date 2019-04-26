@@ -9,8 +9,19 @@
     
 	<link rel="stylesheet" type="text/css" href="/css/pages-seckillOrder.css"/>
 
+	<!--导入jquery-->
+	<script src="js/plugins/jquery/jquery.min.js"></script>
+
+	<script src="/plugins/angularjs/angular.min.js"></script>
+	<script src="/js/base.js"></script>
+	<script src="/js/service/baseService.js"></script>
+	<script src="/js/controller/indexController.js"></script>
+	<script src="/js/controller/home-setting-address-phone.js"></script>
+
 </head>
-<body>
+<body ng-app="pinyougou"
+	  ng-controller="home-setting-address-phone"
+	  ng-init="showName();">
     <!-- 头部栏位 -->
     <!--页面顶部-->
 <div id="nav-bottom">
@@ -20,8 +31,7 @@
 			<div class="py-container">
 				<div class="shortcut">
 					<ul class="fl">
-						<li class="f-item">品优购欢迎您！</li>
-						<li class="f-item">请<a href="login.html" target="_blank">登录</a>　<span><a href="register.html" target="_blank">免费注册</a></span></li>
+						<li class="f-item">{{loginName}}，品优购欢迎您！</li>
 					</ul>
 					<ul class="fr">
 						<li class="f-item">我的订单</li>
@@ -120,7 +130,7 @@
 	</div>
 </div>
 
-<script type="text/javascript" src="/js/plugins/jquery/jquery.min.js"></script>
+
 
 <script type="text/javascript">
 $(function(){
@@ -138,13 +148,6 @@ $(function(){
 })
 </script>
 
-<script type="text/javascript" src="/js/plugins/jquery.easing/jquery.easing.min.js"></script>
-
-<script type="text/javascript" src="/js/plugins/sui/sui.min.js"></script>
-
-<script type="text/javascript" src="/js/widget/nav.js"></script>
-
-<script type="text/javascript" src="/plugins/jquery.validate/jquery.validate.js"></script>
 
 <script>
         $(function(){
@@ -380,31 +383,38 @@ $(function(){
                                     <div class="control-group">
                                         <label for="inputPassword" class="control-label">手机号：</label>
                                         <div class="controls">
-                                            <input name="inputphone" type="text" id="inputphone" placeholder="请输入新手机号">
+                                            <input name="inputphone" type="text" id="inputphone" placeholder="请输入新手机号" ng-model="entity.phone">
                                         </div>                            
                                     </div>
                                      <div class="control-group">
                                         <label for="inputcode" class="control-label">验证码：</label>
                                         <div class="controls">
-                                            <input name="inputcode" type="text" id="inputcode">
+                                            <input name="inputcode" type="text" id="inputcode" ng-model="inputCode">
                                         </div>
                                         <div class="controls">
-                                            验证码
+											<img id ="picCode" src="/verify"/>
+											<!--用于点击切换图片-->
+											<script type="text/javascript">
+                                                $("#picCode").click(function () {
+                                                    //修改src属性
+                                                    $(this).attr("src","/verify?t="+Math.random());
+                                                })
+											</script>
                                         </div>
                                     </div>
                                     <div class="control-group">
                                         <label for="inputRepassword" class="control-label">短信验证码：</label>
                                         <div class="controls">
-                                            <input name="msgcode" type="text" id="msgcode">
+                                            <input name="msgcode" type="text" id="msgcode" ng-model="msgCode">
                                         </div>
                                         <div class="controls">
-                                            <button class="sui-btn btn-info">发送</button>
+                                            <button class="sui-btn btn-info" ng-click="sendMsg();">发送</button>{{smsTip}}
                                         </div>
                                     </div>
 
                                     <div class="control-group next-btn">
                                         <a class="sui-btn btn-primary" href="home-setting-safe.html">上一步</a>&nbsp;
-                                        <a class="sui-btn btn-primary" type="submit" href="home-setting-address-complete.html">下一步</a>
+                                        <a class="sui-btn btn-primary" type="submit" ng-click = "newPhoneMsgCodeVerify();">下一步</a>
                                     </div>
                                 </form>
                             </div>
