@@ -17,7 +17,8 @@ app.controller('userUpdateController', function ($scope, $timeout, $controller, 
             baseService.sendPost("/userUpdate/updateNickName", $scope.user)
                 .then(function (response) {
                     if (response.data) {
-                        location.href = "/home-index.html";
+                        alert("保存成功!");
+                        // location.href = "/home-index.html";
                     } else {
                         alert("保存失败!");
                     }
@@ -33,9 +34,10 @@ app.controller('userUpdateController', function ($scope, $timeout, $controller, 
             //获取响应数据
             if (response.data.status == 200) {
                 //获取图片url
-                alert(response.data.url);
+                // alert(response.data.url);
                 $scope.user.headPic = response.data.url;
-                alert("最后一步");
+                $scope.saveOrUpdate();
+                // alert("最后一步");
             } else {
                 alert("上传失败!");
             }
