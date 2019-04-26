@@ -60,7 +60,13 @@ public class AreasServiceImpl implements AreasService {
 
     @Override
     public List<Areas> findByCityId(String cityId) {
-        return null;
+        try {
+            Areas areas = new Areas();
+            areas.setCityId(cityId);
+            return areasMapper.select(areas);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

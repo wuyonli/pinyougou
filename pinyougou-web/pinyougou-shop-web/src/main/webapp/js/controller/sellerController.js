@@ -24,9 +24,10 @@ app.controller('sellerController', function($scope, $controller, baseService){
             .then(function(response){
                 if (response.data){
                     /** 跳转到登录页面 */
-                    location.href = "/shoplogin.html";
+                    $scope.reload();
+                    alert("保存成功");
                 }else{
-                    alert("操作失败！");
+                    alert("操作失败");
                 }
             });
     };
@@ -86,5 +87,11 @@ app.controller('sellerController', function($scope, $controller, baseService){
             }else{
                 alert("两次输入的密码不相同,请重新输入")
             }
+    };
+    /*对修改密码进行重置*/
+    $scope.reset=function(){
+        $scope.pwd=[];
+        $scope.newPwd=[];
+        $scope.newPwd2=[];
     };
 });

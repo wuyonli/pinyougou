@@ -230,7 +230,7 @@
 								<td>{{entity.mobile}}</td>
 								<td>
 									<a href="#" data-toggle="modal" data-target=".edit" data-keyboard="false" ng-click="show(entity)">编辑</a>
-									<a href="#" ng-click="delete(entity.id)">删除</a>
+									<a href="#" ng-click="delete(entity.id)" ng-if="entity.isDefault == 0">删除</a>
 									<a href="#" class="{{entity.isDefault == 1 ? 'selected' : ''}}"
 									   ng-click="changer(entity.id,entity.isDefault)">
 										<span ng-if="entity.isDefault == 1">默认地址</span>
