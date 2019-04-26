@@ -49,7 +49,11 @@ public class ProvincesServiceImpl implements ProvincesService {
 
     @Override
     public List<Provinces> findAll() {
-        return null;
+        try {
+            return provincesMapper.selectAll();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

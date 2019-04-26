@@ -31,5 +31,7 @@ public interface CitiesService {
 	/** 多条件分页查询 */
 	List<Cities> findByPage(Cities cities, int page, int rows);
 
-    List<Cities> findCityByParentId(String provinceId);
+    List<Cities> findByProvinceId(String provinceId);
+
+	List<Cities> findCityByParentId(String provinceId);
 }

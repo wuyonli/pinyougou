@@ -59,6 +59,11 @@ public class AreasServiceImpl implements AreasService {
     }
 
     @Override
+    public List<Areas> findByCityId(String cityId) {
+        return null;
+    }
+
+    @Override
     public List<Areas> findAreaByParentId(String cityId) {
         try {
             Example example = new Example(Areas.class);
