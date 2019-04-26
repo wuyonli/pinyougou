@@ -130,5 +130,7 @@ public class VerifyController {
 				temp = Math.round(Math.random() * 500 + 0x4E00);
 				return String.valueOf((char)temp);
 		}
+
+
 	}
 }
