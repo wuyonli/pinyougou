@@ -14,6 +14,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -80,6 +81,28 @@ public class UserUpdateController {
     @GetMapping("/findAreaByParentId")
     public List<Areas> findAreaByParentId(String cityId){
         return areasService.findAreaByParentId(cityId);
+    }
+
+    /** 回显数据 */
+    @GetMapping("/showInfo")
+    public Map showInfo(String username){
+        try {
+
+            Map<String,Object> data = new HashMap<>();
+
+            //根据用户名获取用户信息
+            User user = userService.findByUsername(username);
+            SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+            String birthday = sf.format(user.getBirthday());
+
+            data.put("data",user);
+            data.put("birthday",birthday);
+
+            return data;
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
