@@ -94,4 +94,5 @@ app.controller('sellerController', function($scope, $controller, baseService){
         $scope.newPwd=[];
         $scope.newPwd2=[];
     };
+
 });
