@@ -77,7 +77,7 @@ app.controller('sellerController', function($scope, $controller, baseService){
     $scope.updatePassword=function(pwd,newPwd,newPwd2){
             if(newPwd==newPwd2){
                 baseService.sendPost("/seller/updatePassword?pwd="+pwd+"&newPwd="+newPwd).then(function(response){
-                    if(response){
+                    if(response.data){
                             /** 跳转到登录页面 */
                             location.href = "/shoplogin.html";
                         }else{
