@@ -11,19 +11,15 @@ app.controller('userUpdateController', function ($scope, $timeout, $controller, 
     // ?username="+$scope.loginName+"&nickName="+$scope.user.nickName+"&sex="+$scope.user.sex
     $scope.saveOrUpdate = function () {
         $scope.user.username = $scope.loginName;
-        if ($scope.user.job == "") {
-            alert("请选择职业");
-        } else {
             baseService.sendPost("/userUpdate/updateNickName", $scope.user)
                 .then(function (response) {
                     if (response.data) {
                         alert("保存成功!");
-                        // location.href = "/home-index.html";
+                        location.href = "/home-setting-info.html";
                     } else {
                         alert("保存失败!");
                     }
                 })
-        }
     };
 
 
@@ -112,6 +108,9 @@ app.controller('userUpdateController', function ($scope, $timeout, $controller, 
 
                 $scope.user.nickName = response.data.data.nickName;
                 $scope.user.sex = response.data.data.sex;
+                if (response.data.data.job == null || response.data.data.job == ''){
+                    response.data.data.job = 0;
+                }
                 $scope.user.job = response.data.data.job;
 
                 //把JSON字符串转成JSON对象

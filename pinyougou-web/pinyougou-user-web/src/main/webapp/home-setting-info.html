@@ -139,13 +139,8 @@ $(function(){
                                     <div class="control-group">
                                         <label for="inputPassword" class="control-label">生日：</label>
                                         <div class="controls">
-                                            <!--<select id="select_year2" rel="1990"></select>年-->
-                                            <!--<select id="select_month2" rel="4"></select>月-->
-                                            <!--<select id="select_day2" rel="3"></select>日-->
-											<input type="test"  id="birthday" onchange="" class="Wdate" onClick="WdatePicker({lang:'zh-cn',dateFmt:'yyyyMMdd'})" ng-model="user.birthday">
-											<!--<input onChange="" id="datepicker" type="text" ng-model="user.birthday"-->
-												   <!--onClick="WdatePicker({onpicked: function(){$(this).trigger('change')}})" />-->
-											<!--{{user}}-->
+											<input type="test"  id="birthday" onchange="" class="Wdate"
+												   onClick="WdatePicker({lang:'zh-cn',dateFmt:'yyyyMMdd'})" ng-model="user.birthday">
                                         </div>
                                     </div>
 
@@ -191,7 +186,7 @@ $(function(){
                                             <!--</span>-->
                                         <!--</div>-->
 										<select ng-model="user.job">
-											<option value="" selected="selected">---请选择---</option>
+											<option value="0" selected="selected">---请选择---</option>
 											<option value="程序员">程序员</option>
 											<option value="产品经理">产品经理</option>
 											<option value="UI设计师">UI设计师</option>
