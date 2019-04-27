@@ -58,10 +58,7 @@ public class CitiesServiceImpl implements CitiesService {
         return null;
     }
 
-    @Override
-    public List<Cities> findByProvinceId(String provinceId) {
-        return null;
-    }
+
 
     @Override
     public List<Cities> findCityByParentId(String provinceId) {
