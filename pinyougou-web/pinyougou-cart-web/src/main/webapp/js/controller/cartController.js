@@ -107,7 +107,6 @@ app.controller('cartController', function ($scope, $controller, baseService) {
 
 
     };
-
     // 为单选checkbox绑定点击事件
     $scope.updateSelection = function(cartNum,$event, oderItem, i){
 
@@ -151,7 +150,6 @@ app.controller('cartController', function ($scope, $controller, baseService) {
 
 
     };
-
     //  全选整个购物车集 方法
     $scope.checkAllcarts= function ($event) {
         for (var i = 0 ;i < $scope.carts.length; i++){
@@ -179,7 +177,6 @@ app.controller('cartController', function ($scope, $controller, baseService) {
 
 
     };
-
     // 算出 购物车集合中 选中的所有商品总金额
     var calculateTotalAndCount = function () {
         $scope.totalEntity.totalNum = 0;

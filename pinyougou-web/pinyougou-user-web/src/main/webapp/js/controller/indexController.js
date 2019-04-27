@@ -1,8 +1,6 @@
 /** 定义控制器层 */
 app.controller('indexController', function($scope, baseService  , $interval , $location ,$controller){
 
-    // 继承baseController
-    $controller('baseController', {$scope : $scope});
 
     $scope.loginName="";
     /** 定义获取登录用户名方法 */
