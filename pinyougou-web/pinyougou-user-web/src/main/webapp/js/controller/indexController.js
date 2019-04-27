@@ -1,8 +1,5 @@
 /** 定义控制器层 */
-app.controller('indexController', function($scope, baseService  , $interval , $location ,$controller){
-
-    // 继承baseController
-    $controller('baseController', {$scope : $scope});
+app.controller('indexController', function($scope, baseService  , $interval , $location ){
 
     $scope.loginName="";
     /** 定义获取登录用户名方法 */
@@ -22,7 +19,7 @@ app.controller('indexController', function($scope, baseService  , $interval , $l
 
 
     /** 分页查询 */
-    $scope.searchParam = {page:1 , row:5};
+    $scope.searchParam = {page:1 , row:3};
     /** 查询用户的订单 */
     $scope.findOrderByUserId = function (userId , page) {
         baseService.sendGet("/user/findOrderByUserId?userId=" + userId + "&page=" + page + "&row=" + $scope.searchParam.row).then(function (response) {
