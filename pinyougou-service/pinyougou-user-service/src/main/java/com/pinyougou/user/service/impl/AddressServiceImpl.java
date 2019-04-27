@@ -103,4 +103,15 @@ public class AddressServiceImpl implements AddressService {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public List<Address> findAByName(String name) {
+        try {
+            Address address = new Address();
+            address.setUserId(name);
+            return addressMapper.select(address);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

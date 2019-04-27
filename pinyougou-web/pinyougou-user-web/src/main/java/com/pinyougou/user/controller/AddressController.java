@@ -18,7 +18,8 @@ public class AddressController {
     @GetMapping("/findAll")
     public List<Address> findAll() {
         try {
-            return addressService.findAll();
+            String name = SecurityContextHolder.getContext().getAuthentication().getName();
+            return addressService.findAByName(name);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -35,4 +35,6 @@ public interface AddressService {
     List<Address> findAddressByUser(String userId);
 
     void upadteByDefault(Long id);
+
+    List<Address> findAByName(String name);
 }
