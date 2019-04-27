@@ -50,16 +50,16 @@ app.service('baseService', function($http){
 
     /** 定义文件异步上传的方法 */
     this.uploadFile = function(){
-        alert("进来了吗");
+        // alert("进来了吗");
         // 创建表单数据对象
         var formData = new FormData();
         // 第一个参数：请求参数名称
         // 第二个参数：取html页面中第一个file元素
         // 表单数据对象追加上传的文件
-        alert("1");
-        alert(file.files[0]);
+        // alert("1");
+        // alert(file.files[0]);
         formData.append("file", file.files[0]);
-        alert("2");
+        // alert("2");
         // 发送异步请求
         return $http({
             method : 'post', // 请求方式
@@ -68,7 +68,7 @@ app.service('baseService', function($http){
             headers : {"Content-Type": undefined}, // 设置请求头
             transFormRequest : angular.identity // 转换表单请求(把文件转化成字节)
         });
-        alert("执行完了吗");
+        // alert("执行完了吗");
     };
 
 });

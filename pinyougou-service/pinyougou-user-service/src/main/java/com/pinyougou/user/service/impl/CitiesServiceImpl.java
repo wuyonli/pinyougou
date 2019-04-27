@@ -76,4 +76,14 @@ public class CitiesServiceImpl implements CitiesService {
             throw new RuntimeException(e);
         }
     }
+    @Override
+    public List<Cities> findByProvinceId(String provinceId) {
+        try {
+            Cities cities = new Cities();
+            cities.setProvinceId(provinceId);
+            return citiesMapper.select(cities);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
