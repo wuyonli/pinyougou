@@ -77,11 +77,11 @@ app.controller('sellerController', function($scope, $controller, baseService){
     $scope.updatePassword=function(pwd,newPwd,newPwd2){
             if(newPwd==newPwd2){
                 baseService.sendPost("/seller/updatePassword?pwd="+pwd+"&newPwd="+newPwd).then(function(response){
-                    if(response){
+                    if(response.data){
                             /** 跳转到登录页面 */
                             location.href = "/shoplogin.html";
                         }else{
-                            alert("操作失败！");
+                            alert("用户原密码输入错误,请重新输入！");
                         }
                 });
             }else{
@@ -94,4 +94,5 @@ app.controller('sellerController', function($scope, $controller, baseService){
         $scope.newPwd=[];
         $scope.newPwd2=[];
     };
+
 });

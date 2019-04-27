@@ -71,7 +71,7 @@
 			<h4>全部商品<span>11</span></h4>
 			<div class="cart-main">
 				<div class="yui3-g cart-th">
-					<div class="yui3-u-1-4"><input type="checkbox" name="" value="" /> 全部</div>
+					<div class="yui3-u-1-4"><input type="checkbox" name="" value="" ng-checked="gwcAll" ng-click="checkAllcarts($event);"/> 全部</div>
 					<div class="yui3-u-1-4">商品</div>
 					<div class="yui3-u-1-8">单价（元）</div>
 					<div class="yui3-u-1-8">数量</div>
@@ -79,17 +79,21 @@
 					<div class="yui3-u-1-8">操作</div>
 				</div>
 				<!-- 迭代产生商家 -->
+				{{ids}}
+				{{ckAll}}
+
 				<div class="cart-item-list" ng-repeat="cart in carts">
 					<div class="cart-shop">
-						<input type="checkbox" name="" value="" />
+						<input type="checkbox" ng-checked="ckAll[$index]" ng-click="checkAllItem($index,$event)"/>
+
 						<span class="shopname self">{{cart.sellerName}}</span>
 					</div>
 					<div class="cart-body">
 						<!-- 迭代产生商家的商品 -->
-						<div class="cart-list" ng-repeat="orderItem in cart.orderItems">
+						<div class="cart-list" ng-repeat=" orderItem in cart.orderItems">
 							<ul class="goods-list yui3-g">
 								<li class="yui3-u-1-24">
-									<input type="checkbox" name="" value="" />
+									<input type="checkbox" ng-checked="checkedArr[$parent.$index][$index]" ng-click="updateSelection($parent.$index,$event,orderItem,$index);"/>
 								</li>
 								<li class="yui3-u-11-24">
 									<div class="good-item">
