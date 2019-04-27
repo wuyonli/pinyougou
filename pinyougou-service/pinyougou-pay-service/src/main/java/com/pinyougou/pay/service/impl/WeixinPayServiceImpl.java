@@ -86,7 +86,13 @@ public class WeixinPayServiceImpl implements WeixinPayService {
             data.put("outTradeNo", outTradeNo);
             data.put("totalFee", totalFee);
             data.put("codeUrl", resMap.get("code_url"));
-
+            if ("201 商户订单号重复".equals(resMap.get("err_code_des"))){
+                System.out.println("订单重复了!");
+                /** 关闭订单 */
+                closePayTimeout(outTradeNo);
+                genPayCode(outTradeNo, totalFee);
+            }
+            System.out.println("解决订单重复问题");
             return data;
         }catch (Exception ex){
             throw new RuntimeException(ex);

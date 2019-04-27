@@ -11,13 +11,14 @@
     <script src="/plugins/angularjs/angular.min.js"></script>
     <script src="/js/base.js"></script>
     <script src="/js/service/baseService.js"></script>
+    <script src="/js/controller/baseController.js"></script>
     <script src="/js/controller/indexController.js"></script>
 
 
 </head>
 <body ng-app="pinyougou"
       ng-controller="indexController"
-      ng-init="showName()">
+      ng-init="showName();">
 <!-- 头部栏位 -->
 <!--页面顶部-->
 <!--导入头部-->
@@ -97,304 +98,188 @@ $(function(){
                             </table>
                         </div>
                         <div class="order-detail">
+
                             <div class="orders">
                                 <div class="choose-order">
                                     <div class="sui-pagination pagination-large top-pages">
                                         <ul>
-                                            <li class="prev disabled"><a href="#">上一页</a></li>
-
-                                            <li class="next"><a href="#">下一页</a></li>
+                                            <li class="prev {{searchParam.page == 1?'disabled':''}}"><a href="javascript:;" ng-click="addPage(-1)">«上一页</a></li>
+                                            <li class="next {{searchParam.page == totalPages?'disabled':''}}"><a href="javascript:;" ng-click="addPage(1)">下一页»</a></li>
                                         </ul>
                                     </div>
                                 </div>
 
-								<!--order1-->
-                                <div class="choose-title">
-                                    <label data-toggle="checkbox" class="checkbox-pretty ">
-                                           <input type="checkbox" checked="checked"><span>2017-02-11 11:59　订单编号：7867473872181848  店铺：哇哈哈 <a>和我联系</a></span>
-                                     </label>
-									  <a class="sui-btn btn-info share-btn">分享</a>
-                                </div>
-                                <table class="sui-table table-bordered order-datatable">
-                                    <tbody>
-                                        <tr>
+
+
+                                <div ng-repeat="cart in resultMap.rows">
+                                    <!--order1-->
+                                    <div class="choose-title">
+                                        <label data-toggle="checkbox" class="checkbox-pretty ">
+                                            <input type="checkbox" checked="checked"><span>时间:{{cart.createTime | date:'yyyy-MM-dd HH:mm:ss' }}　
+										订单编号：{{cart.orderId}}  店铺：{{cart.nickName}} <a>和我联系</a></span>
+                                        </label>
+                                        <a class="sui-btn btn-info share-btn">分享</a>
+                                    </div>
+                                    <table class="sui-table table-bordered order-datatable">
+                                        <tbody>
+                                        <tr ng-repeat="order in cart.orderItems ">
                                             <td width="35%">
-                                                <div class="typographic"><img src="img/goods.png" />
-                                                    <a href="#" class="block-text">包邮 正品玛姬儿压缩面膜无纺布纸膜100粒 送泡瓶面膜刷喷瓶 新款</a>
-                                                    <span class="guige">规格：温泉喷雾150ml</span>
+                                                <div class="typographic"><img src="{{order.picPath}}" height="100px" width="50px" />
+                                                    <a href="#" class="block-text">{{order.title}}</a>
+                                                    <!--<span class="guige">规格：温泉喷雾150ml</span>-->
                                                 </div>
                                             </td>
+
                                             <td width="5%" class="center">
                                                 <ul class="unstyled">
-                                                    <li class="o-price">¥599.00</li>
-                                                    <li>¥299.00</li>
+                                                    <li>¥{{order.price.toFixed(2)}}</li>
                                                 </ul>
                                             </td>
-                                            <td width="5%" class="center">1</td>
+                                            <td width="5%" class="center">{{order.num}}</td>
                                             <td width="8%" class="center">
-                                               
                                             </td>
-                                            <td width="10%" class="center" >
+
+                                            <!-- 跨行方案处理 -->
+                                            <td width="10%" class="center" rowspan="{{$index}}" ng-if="$index==0">
                                                 <ul class="unstyled">
-                                                    <li>¥299.00</li>
+                                                    <li>¥{{cart.payment}}</li>
                                                     <li>（含运费：￥0.00）</li>
                                                 </ul>
                                             </td>
-                                            <td width="10%" class="center">
+                                            <td width="10%" class="center" rowspan="{{$index}}" ng-if="$index==0">
                                                 <ul class="unstyled">
-                                                    <li>等待卖家付款</li>
-                                                    <li><a href="orderDetail.html" class="btn">订单详情 </a></li>
+                                                    <li>等待卖家付款</li>  <!--rowspan="{{$index}}" ng-if="$index == 0"-->
+                                                    <li><a href="orderDetail.html" class="btn" >订单详情 </a></li>
                                                 </ul>
                                             </td>
-                                            <td width="10%" class="center">
+                                            <td width="10%" class="center" rowspan="{{$index}}" ng-if="$index==0">
                                                 <ul class="unstyled">
-													<li><a href="#" class="sui-btn btn-info">立即付款</a></li>
+                                                    <li><a href="javascript:;" ng-click="wxPay(loginName , cart.orderId , cart.payment);" class="sui-btn btn-info" >立即付款</a></li>
                                                     <li>取消订单</li>
-                                                    
+
                                                 </ul>
                                             </td>
-                                        </tr>
-                                        
+                                            <!-- 跨行方案处理结束 -->
 
-                                    </tbody>
-                                </table>
-                                <!--order2-->
-                                <div class="choose-title">
-                                    <label data-toggle="checkbox" class="checkbox-pretty ">
-                                           <input type="checkbox" checked="checked"><span>2017-02-11 11:59　订单编号：7867473872181848  店铺：哇哈哈 <a>和我联系</a></span>
-                                     </label>
-									  <a class="sui-btn btn-info share-btn">分享</a>
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+
                                 </div>
-                                <table class="sui-table table-bordered order-datatable">
-                                    <tbody>
-                                        <tr>
-                                            <td width="35%">
-                                                <div class="typographic"><img src="img/goods.png" />
-                                                    <a href="#" class="block-text">包邮 正品玛姬儿压缩面膜无纺布纸膜100粒 送泡瓶面膜刷喷瓶 新款</a>
-                                                    <span class="guige">规格：温泉喷雾150ml</span>
-                                                </div>
-                                            </td>
-                                            <td width="5%" class="center">
-                                                <ul class="unstyled">
-                                                    <li class="o-price">¥599.00</li>
-                                                    <li>¥299.00</li>
-                                                </ul>
-                                            </td>
-                                            <td width="5%" class="center">1</td>
-                                            <td width="8%" class="center">
-                                                <ul class="unstyled">
-                                                    <li>已发货</li>
-                                                    <li><a>退货/退款</a></li>
-                                                </ul>
-                                            </td>
-                                            <td width="10%" class="center" rowspan="2">
-                                                <ul class="unstyled">
-                                                    <li>¥299.00</li>
-                                                    <li>（含运费：￥0.00）</li>
-                                                </ul>
-                                            </td>
-                                            <td width="10%" class="center" rowspan="2">
-                                                <ul class="unstyled">
-                                                    <li>部分发货</li>
-                                                    <li><a href="orderDetail.html" class="btn">订单详情 </a></li>
-                                                </ul>
-                                            </td>
-                                            <td width="10%" class="center" rowspan="2">
-                                                <ul class="unstyled">
-                                                    <li>还剩4天23时</li>
-                                                    <li><a href="#" class="sui-btn btn-info">确认发货</a></li>
-                                                </ul>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td width="35%">
-                                                <div class="typographic"><img src="img/goods.png" />
-                                                    <a href="#" class="block-text">包邮 正品玛姬儿压缩面膜无纺布纸膜100粒 送泡瓶面膜刷喷瓶 新款</a>
-                                                    <span class="guige">规格：温泉喷雾150ml</span>
-                                                </div>
-                                            </td>
-                                            <td width="5%" class="center">
-                                                <ul class="unstyled">
-                                                    <li class="o-price">¥199.00</li>
-                                                    <li>¥212.00</li>
-                                                </ul>
-                                            </td>
-                                            <td width="5%" class="center">1</td>
-                                            <td width="8%" class="center">
-                                                <ul class="unstyled">
-                                                    <li>未发货</li>
-                                                    <li><a>退货/退款</a></li>
-                                                </ul>
-                                            </td>
 
 
-                                        </tr>
+                                <div class="choose-order">
+                                    <div class="sui-pagination pagination-large top-pages">
+                                        <ul>
+                                            <li class="prev {{searchParam.page == 1?'disabled':''}}"><a href="javascript:;" ng-click="addPage(-1)">«上一页</a></li>
+                                            <!--<li class="active"><a href="#">1</a></li>-->
 
-                                    </tbody>
-                                </table>
+                                            <li class="dotted" ng-if="searchParam.page > 3"><span>...</span></li>
 
-                                <!--order3-->
-                                <div class="choose-title">
-                                    <label data-toggle="checkbox" class="checkbox-pretty ">
-                                           <input type="checkbox" checked="checked"><span>2017-02-11 11:59　订单编号：7867473872181848  店铺：哇哈哈 <a>和我联系</a></span>
-                                     </label>
-                                    <a class="sui-btn btn-info share-btn">分享</a>
-                                </div>
-                                <table class="sui-table table-bordered order-datatable">
-                                    <tbody>
-                                        <tr>
-                                            <td width="35%">
-                                                <div class="typographic"><img src="img/goods.png" />
-                                                    <a href="#" class="block-text">包邮 正品玛姬儿压缩面膜无纺布纸膜100粒 送泡瓶面膜刷喷瓶 新款</a>
-                                                    <span class="guige">规格：温泉喷雾150ml</span>
-                                                </div>
-                                            </td>
-                                            <td width="5%" class="center">
-                                                <ul class="unstyled">
-                                                    <li class="o-price">¥599.00</li>
-                                                    <li>¥299.00</li>
-                                                </ul>
-                                            </td>
-                                            <td width="5%" class="center">1</td>
-                                            <td width="8%" class="center">
-                                                <ul class="unstyled">
+                                            <li ng-repeat="page in pageNum"><a href="javascript:;" ng-click="findOrderByUserId(loginName,page)">{{page}}</a></li>
 
-                                                    <li><a>退货/退款</a></li>
-                                                </ul>
-                                            </td>
-                                            <td width="10%" class="center">
-                                                <ul class="unstyled">
-                                                    <li>¥299.00</li>
-                                                    <li>（含运费：￥0.00）</li>
-                                                </ul>
-                                            </td>
-                                            <td width="10%" class="center">
-                                                <ul class="unstyled">
-                                                    <li>买家已付款</li>
-                                                    <li><a href="orderDetail.html" class="btn">订单详情 </a></li>
-                                                </ul>
-                                            </td>
-                                            <td width="10%" class="center">
-                                                <ul class="unstyled">
-                                                    <li><a href="#" class="sui-btn btn-info">提醒发货</a></li>
-                                                </ul>
-                                            </td>
-                                        </tr>
+                                            <li class="dotted" ng-if="searchParam.page < totalPages - 3"><span>...</span></li>
 
-
-                                    </tbody>
-                                </table>
-
-
-
-                            </div>
-                            <div class="choose-order">
-                                <div class="sui-pagination pagination-large top-pages">
-                                    <ul>
-                                        <li class="prev disabled"><a href="#">«上一页</a></li>
-                                        <li class="active"><a href="#">1</a></li>
-                                        <li><a href="#">2</a></li>
-                                        <li><a href="#">3</a></li>
-                                        <li class="dotted"><span>...</span></li>
-                                        <li class="next"><a href="#">下一页»</a></li>
-                                    </ul>
-                                    <div><span>共10页&nbsp;</span><span>
+                                            <li class="next {{searchParam.page == totalPages?'disabled':''}}"><a href="javascript:;" ng-click="addPage(1)">下一页»</a></li>
+                                        </ul>
+                                        <div><span>共{{totalPages}}页&nbsp;</span><span>
                                             到
-                                            <input type="text" class="page-num"><button class="page-confirm" onclick="alert(1)">确定</button>
-                                            页</span></div>
+                                            <input type="text" class="page-num" ng-model="selectPage"><button class="page-confirm" ng-click="jumpPage(selectPage);">确定</button>
+                                            页</span></div>{{searchParam.page}}
+                                    </div>
+                                </div>
+
+                                <div class="clearfix"></div>
+                            </div>
+
+                            <div class="like-title">
+                                <div class="mt">
+                                    <span class="fl"><strong>热卖单品</strong></span>
                                 </div>
                             </div>
+                            <div class="like-list">
+                                <ul class="yui3-g">
+                                    <li class="yui3-u-1-4">
+                                        <div class="list-wrap">
+                                            <div class="p-img">
+                                                <img src="img/_/itemlike01.png" />
+                                            </div>
+                                            <div class="attr">
+                                                <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
+                                            </div>
+                                            <div class="price">
+                                                <strong>
+                                                    <em>¥</em>
+                                                    <i>3699.00</i>
+                                                </strong>
+                                            </div>
+                                            <div class="commit">
+                                                <i class="command">已有6人评价</i>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="yui3-u-1-4">
+                                        <div class="list-wrap">
+                                            <div class="p-img">
+                                                <img src="img/_/itemlike02.png" />
+                                            </div>
+                                            <div class="attr">
+                                                <em>Apple苹果iPhone 6s/6s Plus 16G 64G 128G</em>
+                                            </div>
+                                            <div class="price">
+                                                <strong>
+                                                    <em>¥</em>
+                                                    <i>4388.00</i>
+                                                </strong>
+                                            </div>
+                                            <div class="commit">
+                                                <i class="command">已有700人评价</i>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="yui3-u-1-4">
+                                        <div class="list-wrap">
+                                            <div class="p-img">
+                                                <img src="img/_/itemlike03.png" />
+                                            </div>
+                                            <div class="attr">
+                                                <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
+                                            </div>
+                                            <div class="price">
+                                                <strong>
+                                                    <em>¥</em>
+                                                    <i>4088.00</i>
+                                                </strong>
+                                            </div>
+                                            <div class="commit">
+                                                <i class="command">已有700人评价</i>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="yui3-u-1-4">
+                                        <div class="list-wrap">
+                                            <div class="p-img">
+                                                <img src="img/_/itemlike04.png" />
+                                            </div>
+                                            <div class="attr">
+                                                <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
+                                            </div>
+                                            <div class="price">
+                                                <strong>
+                                                    <em>¥</em>
+                                                    <i>4088.00</i>
+                                                </strong>
+                                            </div>
+                                            <div class="commit">
+                                                <i class="command">已有700人评价</i>
+                                            </div>
+                                        </div>
+                                    </li>
 
-                            <div class="clearfix"></div>
-                        </div>
-
-                        <div class="like-title">
-                            <div class="mt">
-                                <span class="fl"><strong>热卖单品</strong></span>
+                                </ul>
                             </div>
                         </div>
-                        <div class="like-list">
-                            <ul class="yui3-g">
-                                <li class="yui3-u-1-4">
-                                    <div class="list-wrap">
-                                        <div class="p-img">
-                                            <img src="img/_/itemlike01.png" />
-                                        </div>
-                                        <div class="attr">
-                                            <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
-                                        </div>
-                                        <div class="price">
-                                            <strong>
-											<em>¥</em>
-											<i>3699.00</i>
-										</strong>
-                                        </div>
-                                        <div class="commit">
-                                            <i class="command">已有6人评价</i>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="yui3-u-1-4">
-                                    <div class="list-wrap">
-                                        <div class="p-img">
-                                            <img src="img/_/itemlike02.png" />
-                                        </div>
-                                        <div class="attr">
-                                            <em>Apple苹果iPhone 6s/6s Plus 16G 64G 128G</em>
-                                        </div>
-                                        <div class="price">
-                                            <strong>
-											<em>¥</em>
-											<i>4388.00</i>
-										</strong>
-                                        </div>
-                                        <div class="commit">
-                                            <i class="command">已有700人评价</i>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="yui3-u-1-4">
-                                    <div class="list-wrap">
-                                        <div class="p-img">
-                                            <img src="img/_/itemlike03.png" />
-                                        </div>
-                                        <div class="attr">
-                                            <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
-                                        </div>
-                                        <div class="price">
-                                            <strong>
-											<em>¥</em>
-											<i>4088.00</i>
-										</strong>
-                                        </div>
-                                        <div class="commit">
-                                            <i class="command">已有700人评价</i>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="yui3-u-1-4">
-                                    <div class="list-wrap">
-                                        <div class="p-img">
-                                            <img src="img/_/itemlike04.png" />
-                                        </div>
-                                        <div class="attr">
-                                            <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
-                                        </div>
-                                        <div class="price">
-                                            <strong>
-											<em>¥</em>
-											<i>4088.00</i>
-										</strong>
-                                        </div>
-                                        <div class="commit">
-                                            <i class="command">已有700人评价</i>
-                                        </div>
-                                    </div>
-                                </li>
-
-                            </ul>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

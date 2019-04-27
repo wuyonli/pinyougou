@@ -1,11 +1,16 @@
 package com.pinyougou.order.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.github.pagehelper.ISelect;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.pinyougou.cart.Cart;
+import com.pinyougou.common.pojo.PageResult;
 import com.pinyougou.common.util.IdWorker;
 import com.pinyougou.mapper.OrderItemMapper;
 import com.pinyougou.mapper.OrderMapper;
 import com.pinyougou.mapper.PayLogMapper;
+import com.pinyougou.mapper.SellerMapper;
 import com.pinyougou.pojo.Order;
 import com.pinyougou.pojo.OrderItem;
 import com.pinyougou.pojo.PayLog;
@@ -13,6 +18,7 @@ import com.pinyougou.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.transaction.annotation.Transactional;
+import tk.mybatis.mapper.entity.Example;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -40,6 +46,8 @@ public class OrderServiceImpl implements OrderService {
     private IdWorker idWorker;
     @Autowired
     private PayLogMapper payLogMapper;
+    @Autowired
+    private SellerMapper sellerMapper;
 
     @Override
     public void save(Order order) {
@@ -220,5 +228,45 @@ public class OrderServiceImpl implements OrderService {
         }catch (Exception ex){
             throw new RuntimeException(ex);
         }
+    }
+
+    /** 根据用户Id查询订单 */
+    @Override
+    public PageResult findOrderByUserId(String userId , Integer page , Integer row) {
+
+        PageInfo<Object> pageInfo = PageHelper.startPage(page, row).doSelectPageInfo(new ISelect() {
+            @Override
+            public void doSelect() {
+                Example example = new Example(Order.class);
+                Example.Criteria criteria = example.createCriteria();
+                criteria.andEqualTo("userId", userId);
+                /** 全部订单 */
+                List<Order> orders = orderMapper.selectByExample(example);
+
+                for (Order order : orders) {
+                    /** 订单详情,一个订单可能包括多个商品 */
+                    Example example1 = new Example(OrderItem.class);
+                    Example.Criteria criteria1 = example1.createCriteria();
+                    criteria1.andEqualTo("sellerId", order.getSellerId());
+                    criteria1.andEqualTo("orderId", order.getOrderId());
+                    List<OrderItem> orderItems = orderItemMapper.selectByExample(example1);
+                    if (orderItems != null && orderItems.size() > 0) {
+                        order.setOrderItems(orderItems);
+                        /** 商家名称 */
+                        String nickName = sellerMapper.selectByPrimaryKey(order.getSellerId()).getNickName();
+                        order.setNickName(nickName);
+                    }
+                }
+            }
+        });
+
+        return new PageResult(pageInfo.getTotal() , pageInfo.getList());
+    }
+
+    @Override
+    public void updateUserPayStatus(String outTradeNo) {
+        Order order = new Order();
+        order.setStatus("2");
+        orderMapper.updateByPrimaryKeySelective(order);
     }
 }

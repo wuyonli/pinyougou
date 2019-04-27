@@ -1,5 +1,6 @@
 package com.pinyougou.service;
 
+import com.pinyougou.common.pojo.PageResult;
 import com.pinyougou.pojo.Order;
 import com.pinyougou.pojo.PayLog;
 
@@ -38,4 +39,9 @@ public interface OrderService {
 
     /** 支付成功，修改支付日志的状态、订单的状态 */
     void updatePayStatus(String outTradeNo, String transactionId);
+
+	/** 根据用户的Id查询订单 */
+	PageResult findOrderByUserId(String userId , Integer page , Integer row);
+
+	void updateUserPayStatus(String outTradeNo);
 }

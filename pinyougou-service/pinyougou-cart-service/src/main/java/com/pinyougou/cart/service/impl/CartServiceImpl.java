@@ -3,6 +3,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.pinyougou.cart.Cart;
 import com.pinyougou.mapper.ItemMapper;
 import com.pinyougou.pojo.Item;
+import com.pinyougou.pojo.Order;
 import com.pinyougou.pojo.OrderItem;
 import com.pinyougou.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -193,5 +194,27 @@ public class CartServiceImpl implements CartService {
        }catch (Exception ex){
            throw new RuntimeException(ex);
        }
+    }
+
+    /** 用户订单提交,微信支付 */
+    @Override
+    public boolean saveOrder(Order order) {
+        try {
+            redisTemplate.boundHashOps("user_" + order.getUserId()).put("user_" + order.getUserId() , order);
+            System.out.println("输出:" + redisTemplate.boundHashOps("user_" + order.getUserId()).get("user_" + order.getUserId()));
+            return true;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /** 查询用户的订单 */
+    @Override
+    public Order findUserOrder(String remoteUser) {
+        try {
+            return (Order) redisTemplate.boundHashOps("user_" + remoteUser).get("user_" + remoteUser);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.pinyougou.service;
 
 import com.pinyougou.cart.Cart;
+import com.pinyougou.pojo.Order;
 
 import java.util.List; /**
  * 购物车的服务接口
@@ -34,4 +35,11 @@ public interface CartService {
      * @return 返回合并后的购物车集合
      */
     List<Cart> mergeCart(List<Cart> cookieCarts, List<Cart> redisCarts);
+
+    /** 用户支付,生成二维码 */
+    boolean saveOrder(Order order);
+
+    /** 查询用户的订单 */
+    Order findUserOrder(String remoteUser);
+
 }

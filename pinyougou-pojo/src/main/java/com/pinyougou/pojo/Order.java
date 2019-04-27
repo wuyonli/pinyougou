@@ -3,6 +3,7 @@ package com.pinyougou.pojo;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -61,7 +62,27 @@ public class Order implements Serializable{
     private String sourceType;
 	@Column(name="seller_id")
     private String sellerId;
-	
+    @Transient
+    private String nickName;
+    @Transient
+    private List<OrderItem> orderItems;
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
+    }
+
     public Long getOrderId() {
         return orderId;
     }
