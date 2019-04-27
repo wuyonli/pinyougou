@@ -59,6 +59,11 @@ public class CitiesServiceImpl implements CitiesService {
     }
 
     @Override
+    public List<Cities> findByProvinceId(String provinceId) {
+        return null;
+    }
+
+    @Override
     public List<Cities> findCityByParentId(String provinceId) {
         try {
             // SELECT * FROM `tb_cities` where provinceid='440000';
